@@ -1,0 +1,21 @@
+.topnav{
+    background: #FFFFFF;
+    border: 0 solid #F0F0F0;
+    border-radius: 5px;
+    border-radius: 5px;
+    width: 1596px;
+    height:72px;
+    margin:30px 29px;
+    /* text-align: center; */
+    vertical-align: center;
+    padding-left: 20px;
+
+    }
+    .topnav span{
+        height: 72px;
+        line-height: 72px;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        color: #383838;
+
+    }

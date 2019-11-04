@@ -1,0 +1,68 @@
+.topDiv{
+    width:1596px;height:72px;background-color:#fff;margin:20px 29px;box-sizing:border-box;padding-top:15px;border-radius:5px;
+}
+.btnBtn{
+    margin-left: 20px;
+}
+.ant-modal-title{
+    text-align: center;
+    font-size: 16px;
+    font-family: '微软雅黑';
+}
+.modant-modal-body{
+
+    height: 300px;
+    /* padding-left: 40px; */
+}
+.ant-modal-footer,
+.ant-modal-header{
+    border-bottom:0 ;
+    border-top:0 ;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    padding: 16px 16px 20px;
+}
+.ant-modal-content{
+    border-radius: 10px;
+}
+.ant-modal-body{
+    /* padding-left: 50px; */
+    text-align: center;
+    padding: 0 24px 0 0px;
+}
+.ant-modal-body>div{
+    margin-bottom:20px ;
+}
+.ant-modal-body>div>span{
+    display: inline-block;
+    text-align: right;
+    width:70px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #595959;
+}
+/* 弹框宽度 */
+.modals{
+    width: 450px !important;
+}
+.text1{
+    font-size: 12px;
+    text-align: left;
+}
+.text1>p{
+    margin: 0%;
+    color: #444;
+    padding-left:24px ;
+}
+.ant-btn{
+    width: 100px;
+}
+.ant-modal-content{
+    width: 408px;
+}
+.btn140{
+    display: block;
+}
+.btn140 .ant-btn{
+    width:140
+}

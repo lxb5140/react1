@@ -1,0 +1,49 @@
+.topTitle{
+    width: 1800px;
+    height: 72px;
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #1E2326;
+    margin:20px auto;
+    border-radius: 10px;
+    vertical-align: center;
+    
+    /* margin: 20px 0; */
+    
+    
+}
+.titleC{
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    /* height: 80px !important ; */
+    box-sizing: content-box;
+    box-shadow: 10px;
+}
+.tablec{
+    width: 1800px;
+    height: 783px;
+    background-color: #fff;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #888888;
+}
+.divtxt{
+    /* text-align: center; */
+    /* position: relative; */
+    margin-bottom:0 !important; 
+    /* padding-bottom: 0; */
+    
+}
+.divtxt>p{
+    font-size: 8px;
+    width:240px;
+    color:#888888;
+    text-align:left; 
+    position: relative  ;
+    right: -120px;
+    margin: 0;
+    /* margin:auto; */
+    /* float: right; */
+
+}

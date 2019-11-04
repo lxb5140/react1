@@ -1,0 +1,21 @@
+.div1{
+    width: 360px;
+    height:200px !important;
+    background: rgba(255,255,255,0.78);
+    padding-top:55px;
+    width:360px;
+    height:200px;
+    float:left;
+    border:1px solid #CFCFCF;
+    border-radius :5px;
+    margin-top:29px;
+    margin-left:104px;
+    text-align: center;
+    vertical-align: center;
+
+}
+.div1>span{
+    /* width:360px !important;
+    height: 200px; */
+    padding-left: 6px;
+}

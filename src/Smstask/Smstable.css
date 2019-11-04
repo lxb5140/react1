@@ -1,0 +1,46 @@
+.smstable{
+    background: #FFFFFF;
+    box-shadow: 0 5px 25px 0 rgba(234,234,234,0.50);
+    border-radius: 5px;
+    border-radius: 5px;
+    width:1596px;
+    height: 815px;
+    margin-left:29px;
+    padding-top: 20px;
+}
+.newstask{
+    width: 569px;
+    height: 782px;
+}
+.span-text{
+    font-family: PingFangSC-Regular !important;
+    font-size: 12px !important;
+    color: #92959A !important;
+    letter-spacing: -0.38px !important;
+    width: 200px !important;
+}
+.modalsts{
+    background: #FFFFFF;
+    /* border: 0 solid #F0F0F0;
+    box-shadow: 0 0 20px 0 rgba(173,173,173,0.22);
+    border-radius: 10px;
+    border-radius: 10px; */
+}
+.modalsts>div{
+    margin-bottom: 10px;
+}
+p{
+    margin: 0;
+}
+.txtsty{
+    width:397px;
+}
+.txtsty>p{
+    width: 397px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    text-align: left !important;
+}
+.widthchange .ant-modal-content{
+    width: 569px !important;
+}
