@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { Table, Divider,Modal,Select } from 'antd';
+import { Table, Divider,Modal,Select,message } from 'antd';
 import Crowdbtn from './Crowdbtn';
 import "./Crowdtable.css"
+import { token1 } from '../jaxios';
 const { Column } = Table;
 const {Option}=Select;
+// const token="?token=_OgrzQSqzyXdP2HzE1yyir1BdQ";
 class Crowdtable extends React.Component{
     constructor(){
         super()
@@ -13,42 +15,63 @@ class Crowdtable extends React.Component{
             showModal1:false ,   
             showModal2:false ,
             id:'',
-            admin_id:''   
+            admin_id:'',
+            mediaList:''  
         }
     }
     // 状态按钮控制
 
     // 控制弹框显示
-    showModaldel(showModal1,id){
+    showModaldel(e,showModal1,id){
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
         this.setState({showModal1,id})
+        }
     }
+    // 删除行
     rowDelete(showModal1){
         this.setState({showModal1})
         // console.log(id)
         this.props.rowdel(this.state.id);
     }
-    appint(showModal2){
-        
-        this.setState({showModal2})
-        
+    // 弹框显示
+    appint(e,showModal2,id){
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+        var url="/getAdminGList"+token1;
+        axios.get(url).then(res=>{
+            console.log(res.data.data)
+            this.setState({mediaList:res.data.data})
+        })
+        // console.log(id)
+        this.setState({showModal2,id})
     }
-    appint1(showModal2,id){
-        var id1="&id="+id;
-        var admin_id="&admin_id="+this.state.admin_id;
-        var url="/getAdminList?token=-uAgyQH6nXDdP2HzE1yyir1Beg"+id1+admin_id;
-        console.log(url);
-        axios.get(url).then(res=>console.log(res));
-        this.setState({showModal2,admin_id:''});
+    }
+    // 指派人群包
+    appint1(showModal2){
+        if(this.state.type){
+            var id1="&id="+this.state.id;
+            var admin_id="&admin_id="+this.state.type;
+            var url="/designateUserPackage"+token1+id1+admin_id;
+            // console.log(url);
+            axios.get(url).then(res=>window.location.reload());
+            this.setState({showModal2,admin_id:'',id:''});
+        }else{
+            alert('请选择广告主')
+        }
+
 
     }
+    // 页面改变
     onChange=(pageNumber)=> {
         
         this.props.pageChange(pageNumber)
     }
-    typeChang=(type)=>{
+    // 类型改变
+    typeChange=(type)=>{
+        console.log(type)
         this.setState({type})
     }
-    render(){
+    
+    render(){      
         return(
             <div>
                 <Table dataSource={this.props.data.userPackageList}
@@ -76,15 +99,16 @@ class Crowdtable extends React.Component{
                     key="create_ts"
                     align="center"
                     />
+                    <Column title="广告主" align="center" dataIndex="admin_name" key="admin_name" />
                     <Column
                     title="操作"
                     key="action"
                     align="center"
                     render={(text, record) => (
                         <span>
-                            <span  onClick={()=>this.appint(true,record.id)}>指派</span>
-                            <Divider type="vertical" />
-                            <span  onClick={()=>this.showModaldel(true,record.id)}>删除</span>
+                            <span className="point" style={{display:this.props.data.isRoot?'inline':'none'}}  onClick={(e)=>this.appint(e,true,record.id)}>指派</span>
+                            <Divider type="vertical"  style={{display:this.props.data.isRoot?'inline-block':'none'}}/>
+                            <span className="point"  onClick={(e)=>this.showModaldel(e,true,record.id)}>删除</span>
                         
                         </span>
                     )}
@@ -96,7 +120,7 @@ class Crowdtable extends React.Component{
                     centered
                     visible={this.state.showModal1}
                     onOk={() => this.rowDelete(false)}
-                    onCancel={() => this.showModaldel(false)}
+                    onCancel={(e) => this.showModaldel(e,false)}
                     okText="删除"
                     cancelText="取消"
                     >
@@ -108,16 +132,23 @@ class Crowdtable extends React.Component{
                     centered
                     visible={this.state.showModal2}
                     onOk={() => this.appint1(false)}
-                    onCancel={() => this.appint(false)}
+                    onCancel={(e) => this.appint(e,false)}
                     
                     okText="上传"
                     cancelText="取消"
                     >
                     <div style={{paddingRight:'50px'}}>
                         <span>广告主</span> 
-                    <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.typeChange}>
-                            <Option value="自有">自有</Option>
-                            <Option value="媒体">媒体</Option>
+                    <Select  style={{ width: 240,marginLeft:'20px' }} onChange={this.typeChange}>
+                            {
+                                this.state.mediaList&&this.state.mediaList.map(item=>{
+                                    return(
+                                        <Option key={item.id}>{item.name}</Option>
+                                    )
+                                })
+                            }
+                            
+                            {/* <Option value="媒体">媒体</Option> */}
                         </Select>
                     </div>
                 </Modal>

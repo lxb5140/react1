@@ -4,3 +4,7 @@
     color: #1790FF;
     letter-spacing: 0; 
 }
+.itemcss>p{
+    text-align: left;
+    margin-left: 33px;
+}

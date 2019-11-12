@@ -1,15 +1,17 @@
 .topTitle{
-    width: 1800px;
+    width: 93.8%;
     height: 72px;
     font-family: PingFangSC-Medium;
-    font-size: 18px;
+    font-size: 1.5rem;
     color: #1E2326;
-    margin:20px auto;
-    border-radius: 10px;
+    margin:2.4% auto 1.5%;
+    border-radius: 5px;
     vertical-align: center;
     
     /* margin: 20px 0; */
-    
+    background: #FFFFFF;
+    border: 0 solid #F0F0F0;
+    box-shadow: 0 0 6px 6px rgba(59,59,59,0.04);
     
 }
 .titleC{
@@ -21,12 +23,16 @@
     box-shadow: 10px;
 }
 .tablec{
-    width: 1800px;
+    width: 93.8%;
     height: 783px;
-    background-color: #fff;
+    /* background-color: #fff; */
     margin: auto;
     border-radius: 5px;
-    box-shadow: 0 0 5px #888888;
+    /* box-shadow: 0 0 5px #888888; */
+    background: #FFFFFF;
+    box-shadow: 0 5px 25px 0 rgba(234,234,234,0.50);
+    border-radius: 5px;
+    border-radius: 5px;
 }
 .divtxt{
     /* text-align: center; */
@@ -45,5 +51,12 @@
     margin: 0;
     /* margin:auto; */
     /* float: right; */
+
+}
+.btncss{
+    width: 8.33rem;
+    height: 2.67rem;
+    min-width: 100px;
+    min-height: 32px;
 
 }

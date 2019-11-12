@@ -3,7 +3,8 @@ import { Table, Button,Modal,Select,DatePicker,Input,TimePicker,Upload } from 'a
 import "./Smstable.css"
 import moment from 'moment';
 import axios from 'axios';
-
+// const token="?token=_OgrzQSqzyXdP2HzE1yyir1BdQ";
+import { token1 } from '../jaxios';
 // import moment from 'moment'
 const { RangePicker } = DatePicker;
 const { Column } = Table;
@@ -30,12 +31,23 @@ class Smstable extends React.Component{
         this.props.statuschange(value)
     }
     // 下载弹框显示
-    downshow=(showMotal)=>{
-        this.setState({
-            showMotal
-        })
+    downshow=(q)=>{
+        // this.setState({
+        //     showMotal
+        // })
+        var a='&link='+q
+        var url="http://39.100.132.52:8212/downLoadTxt"+token1+a;
+        window.location.href=url;
+        
     }
     // 新建任务弹框显示
+    shownew1=(e,shownew)=>{
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+        this.setState({
+            shownew
+        })
+    }
+    }
     shownew=(shownew)=>{
         var $ =this.state;
         var gl={
@@ -44,10 +56,12 @@ class Smstable extends React.Component{
             text_link:$.text_link,
             departure_ts:$.date+' '+$.time
         }
-        var url="/marketingSmsIns?token=-uAgyQH6nXDdP2HzE1yyir1Beg"
+        var url="/marketingSmsIns"+token1;
         axios.post(url,{pramas:gl}).then(res=>{
             this.setState({textContent:''})
-            console.log(res);
+            // console.log(res);
+            alert(res.data.message)
+            window.location.reload();
         }
             
             )
@@ -126,12 +140,12 @@ class Smstable extends React.Component{
                     
                     /> 
                     <Button type='primary' style={{float:"right",marginLeft:20}}  onClick={this.elayout}>导出EXCEL</Button>
-                    <Button type='primary' style={{float:"right"}} onClick={()=>this.shownew(true)}>新建任务</Button>
+                    <Button type='primary' style={{float:"right"}} onClick={(e)=>this.shownew1(e,true)}>新建任务</Button>
                 </div>
                 
                 <Table
                     dataSource={this.props.res.smsList}
-                    pagination={{onChange:this.pageChange,showTotal:total=> `共 ${total} 数据`,showQuickJumper:true,total:this.props.res.count}}
+                    pagination={{onChange:this.pageChange,showTotal:total=> `共 ${total} 数据`,total:this.props.res.count,showQuickJumper:true}}
                     rowKey={row=>row.id}
                     bordered
                 >
@@ -145,9 +159,9 @@ class Smstable extends React.Component{
                     <Column title="短信内容" dataIndex="content" key="content" align="center"  />
                     <Column title="广告主" dataIndex="admin_name" key="admin_name" align="center"  />
                     <Column title="文件" dataIndex="text_link" key="text_link" align="center" render={
-                        ()=>(
+                        (rowkey)=>(
                             <span>
-                                <span onClick={()=>this.downshow(true)}>下载</span>
+                                <span onClick={()=>this.downshow(rowkey)} className="downcss">下载</span>
                             </span>
                         )
                     } />
@@ -158,7 +172,7 @@ class Smstable extends React.Component{
 
                     visible={this.state.shownew}
                     onOk={() => this.shownew(false)}
-                    onCancel={() => this.shownew(false)}
+                    onCancel={(e) => this.shownew1(e,false)}
                     className="widthchange"
                     okText="创建"
                     cancelText="取消"

@@ -5,9 +5,12 @@ import { Menu , Select,Button,Modal,Input,Upload} from 'antd';
 import Crowdtable from './Crowdtable';
 import './Crowdpackage.css';
 import { DatePicker } from 'antd';
+// import Crowselect from './Crowselect';
+import { token1 } from '../jaxios';
 import moment from 'moment';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+// const token="?token=_OgrzQSqzyXdP2HzE1yyir1BdQ";
 // const { SubMenu } = Menu;
 class Crowdpackage extends React.Component{
     constructor(){
@@ -60,14 +63,16 @@ class Crowdpackage extends React.Component{
             
             newcrow:false  ,
             current: '1',
-            pck:'1',//广告主
+            pck:'&pck=1',//广告主
             status:'',//状态
             time_section:'',//时间
             type:'',//类型
             pck1:'' ,   
             matetype:'',//弹框数据类型   
             name:'',
-            text_link:''
+            text_link:'',
+            typevalue:'类型选择',
+            // statustype:'类型选择'
         };
     }
     
@@ -80,27 +85,34 @@ class Crowdpackage extends React.Component{
     handleClick = e => {
         console.log('click ', e.key);
         var pck='&pck='+e.key;
+       
         this.setState({
             pck,
             status:'',
             time_section:'',
-            type:'' 
+            type:'' ,
+            typevalue:'类型选择',
+            // handleClick:''
+            current: e.key,
         
         })
         this.axioscrowd(pck);
-        this.setState({
-        current: e.key,
-        pck
-        });
+        // this.setState({
+        
+        // pck
+        // });
     };
     // 弹框上传
-    crowdchange(newcrow){
+    crowdchange(e,newcrow){
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
         this.setState({newcrow})
+        }
     }
     // 请求函数
     axioscrowd(i){
         var i1=i?i:'';
-        var url='/getUserPackage?token=-uAgyQH6nXDdP2HzE1yyir1Beg'+i1;
+        console.log(i1)
+        var url='/getUserPackage'+token1+i1;
         axios.get(url).then(res=>{
             var data=res.data.data;
             console.log(data);
@@ -111,8 +123,9 @@ class Crowdpackage extends React.Component{
     statusChange=(value)=>{
         console.log(value)
         var $=this.state;
+        var statustype=value;
         var status=value?'&status='+value:'';
-        this.setState({status})
+        this.setState({status,statustype})
         status=status+$.pck+$.type+$.time_section;
         console.log(status)
         this.axioscrowd(status);
@@ -121,9 +134,10 @@ class Crowdpackage extends React.Component{
     typeChange=(value)=>{
         console.log(value);
         var $=this.state;
+        var typevalue=value;
         var type=value?'&type='+value:'';
         var type1=type+$.pck+$.status+$.time_section;
-        this.setState({type});
+        this.setState({type,typevalue});
         this.axioscrowd(type1);
     }
     // 时间改变
@@ -146,14 +160,17 @@ class Crowdpackage extends React.Component{
     rowdel=(id)=>{
         if(id){
             var id1="&id="+id;
-            var url='/delUserPackage?token=-uAgyQH6nXDdP2HzE1yyir1Beg'+id1;
+            console.log(id1)
+            var url='/delUserPackage'+token1+id1;
             axios.get(url).then(res=>{
             // var data=res.data.data;
-            console.log(res);
+            // console.log(res);
+            alert(res.data.message)
             // this.setState({data})
             if(res.data.code===0){
                 var $=this.state;
                 var td=$.time_section+$.pck+$.status+$.type
+                console.log('type:'+$.type,'tiem:'+$.time_section,'pck:'+$.pck,$.status)
                 this.axioscrowd(td)
             }
             
@@ -167,8 +184,8 @@ class Crowdpackage extends React.Component{
     // 新建人群包
     //媒体选项
     mediachange=(pck1)=>{
-        // console.log(pck1)
-        var matetype=pck1=1?"MD5":"SHOW";
+        console.log(pck1)
+        var matetype=pck1==="2"?"手机号-MD5":"手机号-SHA256";
         this.setState({pck1,matetype})
     }
     // 输入名称
@@ -184,7 +201,7 @@ class Crowdpackage extends React.Component{
             var data=info.file.response.data;
             var text_link=data.text_link;
             // var textContent=data.textContent;
-            console.log(text_link)
+            console.log("11"+text_link) 
             this.setState({text_link})
     }
 }
@@ -195,8 +212,8 @@ upchange=(newcrow)=>{
         name:this.state.name,
         link_txt:this.state.text_link
     }
-    var url="/insUserPackage?token=-uAgyQH6nXDdP2HzE1yyir1Beg"
-    axios.post(url,{params:gl}).then(res=>console.log(res))
+    var url="/insUserPackage"+token1;
+    axios.post(url,{params:gl}).then(res=>{alert(res.data.message);window.location.reload()})
     this.setState({
             pck1:'' ,   
             matetype:'',//弹框数据类型   
@@ -204,21 +221,27 @@ upchange=(newcrow)=>{
             text_link:'',
             newcrow
     })
+    
 }
+// 导出excel
     tohref=()=>{
         console.log(this.state.pck)
         var pck2="&pck1="+this.state.pck;
-        var a='/getUserPackageExcel?token=-uAgyQH6nXDdP2HzE1yyir1Beg'+pck2;
+        var a='/getUserPackageExcel'+token1+pck2;
         // if()
         if(this.state.status)a+=this.state.status;
         if(this.state.time_section1)a+=this.state.time_section1;
         
         window.location.href=a;
     }
+    // handleClick=(i)=>{
+    //     // console.log(i)
+    //     // window.location.reload();
+    // }
     render() {
         var typeList=this.state.data.typeList;
         return (
-            <div>
+            <div style={{background: 'rgba(255,255,255,0.78)'}}>
                 <div className="topTitle" >
                     <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{borderRadius:'5px',paddingTop:'10px',boxShadow:' 0px 0px 10px #888888',paddingLeft:'15px',fontSize:20}}>
                         <Menu.Item key="1" style={{fontSize:18,color:' #1E2326',fontFamily:' PingFangSC-Regular'}}>
@@ -239,14 +262,14 @@ upchange=(newcrow)=>{
                 
                     </Menu>
                 </div>
-                <div style={{margin:'20px auto',width:1800}}>
-                    <Button type="primary" onClick={()=>this.crowdchange(true)}>新建人群包</Button>
+                <div style={{margin:'15px auto',width:"93.8%",fontSize:'1rem'}}>
+                    <Button type="primary" onClick={(e)=>this.crowdchange(e,true)} className="btncss">新建人群包</Button>
                     <Modal
                         title="生上传人群包"
                         centered
                         visible={this.state.newcrow}
                         onOk={() => this.upchange(false)}
-                        onCancel={() => this.crowdchange(false)}
+                        onCancel={(e) => this.crowdchange(e,false)}
                         className='modals'
                         okText="上传"
                         cancelText="取消"
@@ -256,9 +279,9 @@ upchange=(newcrow)=>{
                         <div>
                             <span>媒体选择</span>
                             <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.mediachange}>
-                                <Option value="1">腾讯</Option>
-                                <Option value="2">报读</Option>
-                                <Option value="3">头条</Option>
+                                <Option value="1">头条</Option>
+                                <Option value="2">腾讯</Option>
+                                <Option value="3">百度</Option>
                                 <Option value="4">朋友圈</Option>
                             </Select>
                         </div>
@@ -271,8 +294,8 @@ upchange=(newcrow)=>{
                             <Input placeholder="请输入名称" style={{ width: 240,marginLeft:'20px' }} onBlur={this.getname} />
                         </div>
                         <div>
-                            <span style={{position:'relative',left:'-69px'}}>上传文件</span>
-                            <Upload action="/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg" accept=".txt" name="textFile" onChange={this.zipchange}     >
+                            <span style={{position:'relative',left:'-95px'}}>上传文件</span>
+                            <Upload action="/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg" accept=".zip" name="textFile" onChange={this.zipchange}     >
                                 <Button type="primary" style={{position:'relative',width:140,left:'-40px'}} >点击上传ZIP包</Button>
                             </Upload>
                         </div>
@@ -287,7 +310,17 @@ upchange=(newcrow)=>{
                     {/* table可选框 */}
                     <table></table>
                     <div  style={{margin:'20px auto '}}>
-                        <Select defaultValue="类型选择" 
+                        {/* <Crowselect  
+                        // typeList={this.state.data.typeList} 
+                        data={this.state.data}
+                        timeChange={this.timeChange}
+                        statusChange={this.statusChange}
+                        typeChange={this.typeChange}
+                        ></Crowselect> */}
+                        <Select
+                        // defaultValue="" 
+                        placeholder="类型选择"
+                        value={this.state.typevalue}
                         style={{ width: 120,marginLeft:'20px' }} 
                         onChange={this.typeChange}>
                             {
@@ -301,12 +334,16 @@ upchange=(newcrow)=>{
                             {/* <Option value="媒体">媒体</Option> */}
                         </Select>
                         <Select
+                            // defaultValue="" 
                             mode="multiple"
                             style={{ width: 120,marginLeft:'20px' }}
                             placeholder="状态选择"
+                            
                             showArrow 
+                            // value={this.state.statustype}
                             onChange={this.statusChange}
                             optionLabelProp="label"
+                            // allowClear={true}
                         >
                             {
                                 this.state.data.statusList&&this.state.data.statusList.map(item=>{
@@ -328,7 +365,7 @@ upchange=(newcrow)=>{
                             onChange={this.timeChange}
                             
                         />
-                        <Button type="primary" style={{float:'right',marginRight:'20px  '}} onClick={this.tohref}>导出Excel</Button>
+                        <Button type="primary" style={{float:'right',marginRight:'20px  '}} onClick={this.tohref}>导出Excel</Button> 
                     </div>
                     {/* 表格 */}
                     {/* <div>

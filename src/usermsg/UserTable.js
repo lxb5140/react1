@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Select,Button,Table } from 'antd';
 import './UserTable.css';
-import Oclick from '../oclick';
+import Oclick from './oclick';
 const { Option } = Select;
 // const { TreeNode } = TreeSelect;
 class UserTable extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            value:'类型选择',
+            // value:'类型选择',
             children : [],
             st:[],
             columns : [
@@ -68,11 +68,7 @@ class UserTable extends React.Component{
             
         };
     }
-    componentWillUnmount(){
-        // this.state.userList||this.setState({
-        //     userList:this.props.p1.userList
-        // })
-    }
+    
     componentDidMount(){
 
     
@@ -86,24 +82,26 @@ class UserTable extends React.Component{
             // }
             this.props.getfun.getaffiliatedTableTableList(pageNumber)
         }
-        onChange1=(e)=> {
-            console.log(`checked = ${e.target.checked}`);
+        // onChange1=(e)=> {
+        //     console.log(`checked = ${e.target.checked}`);
             
-        }
+        // }
         // 类型选择
-        handleChange=(value) =>{
+        type_nameChange=(value) =>{
             this.props.getfun.type_name(value);
-            this.setState({
-                arr:value
-            })
+            // this.setState({
+            //     arr:value
+            // })
             
         }
-        handleChange1=(value) =>{
+        // 来源选择
+        source_nameChange=(value) =>{
             console.log(value)
             this.props.getfun.source_name(value)
             
         }
-        handleChange2=(value) =>{
+        // 广告主选择
+        adminListChange2=(value) =>{
             console.log(value)
             this.props.getfun.adminList(value)
             
@@ -120,29 +118,37 @@ class UserTable extends React.Component{
             this.props.getfun.userlayout()
         }    
         render(){
-            var sourceList= this.props.p1.sourceList
+            // var sourceList= this.props.p1.sourceList
             // console.log(sourceList)
+            var {adminList,typeList,sourceList}=this.props.p2;
+            // console.log(adminList)
         return(
             <div className="topTable">
                 <div style={{marginBottom:20}}>
-                    <Select defaultValue="类型选择" style={{ width: 120,marginLeft:'20px' }} onChange={this.handleChange}>
-                        <Option value="">全部</Option>
-                        <Option value="媒体">媒体</Option>
-                        <Option value="自有">自有</Option>
+                    <Select placeholder="类型选择" allowClear={true}  style={{ width: 120,marginLeft:'20px' }} onChange={this.type_nameChange}>
+                        
+                        {
+                            typeList&&typeList.map(item=>{
+                                return(
+
+                                    <Option key={item}>{item}</Option>
+                                )
+                            })
+                        }
                         
                     </Select>
                     <Select
+                        allowClear={true}
                         mode="multiple"
-                        style={{ width: 120,marginLeft:'20px' }}
+                        style={{ width: 180,marginLeft:'20px' }}
                         placeholder="来源选择"
                         showArrow                   
-                        onChange={this.handleChange1}
+                        onChange={this.source_nameChange}
                         optionLabelProp="label"
                         > 
                     {
-                        sourceList&&sourceList.map((item,index)=>{
+                        sourceList&&sourceList.map((item)=>{
                             return(
-
                                 <Option key={item}>{item}</Option>
                             )
                             // console.log(sourceList)
@@ -150,26 +156,27 @@ class UserTable extends React.Component{
                     }
                     </Select>
                     <Select
+                    allowClear={true}
                     mode="multiple"
-                    style={{ width: 120,marginLeft:'20px',dispaly:this.props.p1.isRoot?"block":"none" }}
+                    style={{ width: 180,marginLeft:'20px',dispaly:this.props.p1.isRoot?"block":"none" }}
                     placeholder="广告主选择"
                     showArrow
                     // suffixIcon={<Icon type="down" />}
-                    onChange={this.handleChange2}
+                    onChange={this.adminListChange2}
                     optionLabelProp="label"
                     > 
                     {
                         
-                        this.props.p1.adminList&&this.props.p1.adminList.map((item)=>{
+                        adminList&&adminList.map((item)=>{
                             return(
-                                <Option key={item.id}>{item.name}</Option>
+                                <Option key={item}>{item}</Option>
                             )
                         })
                     }  
 
                     </Select>
                     {/*  时间选择器*/}
-                    <Oclick  getTime1={this.getTime1}/>
+                    <Oclick  getTime1={this.getTime1} style={{width:180}}/>
                     <Button type="primary" style={{float:'right',marginRight:'20px  '}} onClick={this.userlayout}>导出Excel</Button>
                 </div>
                 <div>
@@ -179,6 +186,7 @@ class UserTable extends React.Component{
                 columns={this.state.columns} 
                 pagination={{onChange:this.onChange,showTotal:total=> `共 ${total} 数据`,showQuickJumper:true,total:this.props.p1.count }}  
                 dataSource={this.props.p1.userList} 
+                // style={{boxShadow:' 0 5px 25px 0' }}
                 size="middle"  
                 bordered/>
                 {/* <Checkbox onChange={this.onChange1}>全选</Checkbox> */}

@@ -2,14 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import{ DatePicker,Input,Modal,Button,Select,Icon,Upload,message} from 'antd';
 // import { } from 'antd';
-
+import { token1 } from '../jaxios';
 
 import './UserBtn.css';
 const {  RangePicker} = DatePicker;
 const { Option } = Select;
+// const token="?token=_OgrzQSqzyXdP2HzE1yyir1BdQ";
 class UserBtn extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             
                 modal1Visible: false,
@@ -22,25 +23,42 @@ class UserBtn extends React.Component{
                 sex:'',
                 region:'',
                 name:'',
-                type_name:''
+                type_name:'',
+                media:'',//生成人群包 媒体
+                matetype:'',
+                c_name:'',
+                list:'',//选项列表
+                // 新建弹框联动
+                age1:'',
+                admin_id1:'',
+                region1:'',
+                sex1:'',
+                type_name1:'',
+                source_name1:''
+
             
         }
     }
-    
+    componentDidMount(){
+        this.axiosops();
+    }
     onChange=(date, dateString)=> {
-    console.log(date, dateString)
+    // console.log(date, dateString)
     }
     // 控制弹框显示
-    setModal1Visible(modal1Visible){
+    setModal1Visible(e,modal1Visible){
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
         this.setState({ modal1Visible });
+        }
     }
+    
     // 用户上传
     uploaddone(modal1Visible) {
         
         if(this.state.link){
             var link1="&link="+this.state.link;
-            var url="/insUser?token=-uAgyQH6nXDdP2HzE1yyir1Beg"+link1;
-            axios.get(url).then(res=>console.log(res))
+            var url="/insUser"+token1+link1;
+            axios.get(url).then(res=>{alert(res.data.message);}).then(()=>{window.location.reload(1)})
             this.setState({ modal1Visible,link:'' });
         }else{
             message.error('请上传文件')
@@ -53,8 +71,10 @@ class UserBtn extends React.Component{
         
     }
     // 生成人群包
-    setModal2Visible(modal2Visible) {
+    setModal2Visible(e,modal2Visible) {
+        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
         this.setState({ modal2Visible });
+        }
     }
     // 新建用户
     newusergroup=(modal3Visible)=>{
@@ -71,6 +91,7 @@ class UserBtn extends React.Component{
             name:$.name,
             type_name:$.type_name
         }
+        
         // console.log(gl);
         this.props.newusergroup(gl);
         this.setState({ 
@@ -85,110 +106,57 @@ class UserBtn extends React.Component{
             link:'',
             type_name:''
         });
-        // return(
-        //     <Modal
-        //             title="新建用户组"
-        //             centered
-        //             visible={true}
-        //             onOk={() => this.newusergroup(false)}
-        //             onCancel={() => this.newusergroup(false)}
-        //             className='modals'
-        //             style={{width:408}}
-        //             footer={<Button type="primary" onClick={()=>this.newusergroup(false)}>新建</Button>}
-                            
-        //             >
-        //             <div>
-        //                 <span>类型</span>
-        //                 <Select defaultValue="全部" style={{ width: 240,marginLeft:'20px' }} onChange={this.handleChange}>
-        //                     <Option value="自有">自有</Option>
-        //                     <Option value="媒体">媒体</Option>
-                        
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>来源</span>
-        //                 <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.sourceChange}>
-        //                     {
-        //                         sourceList&&sourceList.map(item=>{
-        //                             return(
+    }
+    
+    // 新建弹框显示隐藏
+    newusergroupshow=(modal3Visible)=>{
+        // this.axiosops()
+        console.log(this.state.list)
+        this.setState({modal3Visible})
+    }
+    newusergroupshow1=(e,modal3Visible)=>{
+        // window.location.reload()
+        // console.log(e.target.nodeName)
+        if(e.target.nodeName=='svg'||e.target.nodeName=='SPAN'){
 
-        //                                 <Option key={item}>{item}</Option>
-        //                             )
-        //                         })
-        //                     }
-                            
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>广告主</span>
-        //                 <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.adminChange}>
-        //                     {
-        //                         adminList&&adminList.map(item=>{
-        //                             return( 
-        //                                 <Option key={item.name}>{item.name}</Option>
-        //                             )
-        //                         })
-        //                     }
-                            
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>时间</span>
-                        
-        //                 <RangePicker suffixIcon={<Icon type="down" />}  placeholder="" separator="" style={{width:240,marginLeft:'20px' }} onChange={this.timeChange} />
-        //             </div>
-        //             <div>
-        //                 <span>地域</span>
-        //                 <Select showArrow  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onChange={this.regionChange}>
-        //                     <Option value="001">全部</Option>
-                    
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>年龄</span>
-        //                 <Select showArrow  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onChange={this.ageChange}>
-        //                     <Option value="001">18-23</Option>
-        //                     <Option value="002">24-30</Option>
-        //                     <Option value="003">31-40</Option>
-        //                     <Option value="004">41-49</Option>
-        //                     <Option value="005">50+</Option>
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>性别</span>
-        //                 <Select defaultValue="全部"  style={{ width: 240,marginLeft:'20px' }} onChange={this.sexChange}>
-        //                     <Option value="001">男</Option>
-        //                     <Option value="002">女</Option>
-        //                     <Option value="003">未知</Option>
-                            
-        //                 </Select>
-        //             </div>
-        //             <div>
-        //                 <span>组名称</span>
-        //                 <Select  showArrow  style={{ width: 240,marginLeft:'20px' }} onChange={this.groupChange}>
-        //                     <Option value="腾讯">腾讯</Option>
-        //                     <Option value="报读">报读</Option>
-        //                     <Option value="头条">头条</Option>
-        //                     <Option value="朋友圈">朋友圈</Option>
-        //                 </Select>
-        //             </div>
-        //         </Modal>
-        // )
+            this.setState({modal3Visible})
+        }
+    }
+    // 新建弹框
+    axiosops=(val)=>{
+        var url='/getSelect'+token1;
+        if(val)url+=val;   
+        axios.get(url).then(res=>{
+            // console.log(res.data.data.typeList)
+            this.setState({list:res.data.data})
+        })
     }
     // 新建弹框  类型
     typeChange=(type_name)=>{
-        console.log(type_name);
-        this.setState({type_name})
+        var $=this.state;
+        var type_name1=type_name?'&type_name='+type_name:'';
+        console.log(type_name1);
+        this.setState({type_name,type_name1})
+        type_name1+=$.region1+$.sex1+$.source_name1+$.age1+$.admin_id1;
+        this.axiosops(type_name1);
     }
     // 新建弹框sourceChange
     sourceChange=(source)=>{
+        var $=this.state;
+        var source_name1=source?'&source_name='+source:'';
+        source_name1+=$.region1+$.sex1+$.type_name1+$.age1+$.admin_id1;
         console.log(source);
-        this.setState({source})
+        this.setState({source,source_name1})
+        this.axiosops(source_name1);
     }
     // 新建弹框adminChange
     adminChange=(admin)=>{
         console.log(admin);
-        this.setState({admin})
+        var $=this.state;
+        var admin_id1=admin?'&admin_name='+admin:'';
+        admin_id1+=$.region1+$.sex1+$.type_name1+$.source_name1+$.age1;
+        this.setState({admin,admin_id1})
+        this.axiosops(admin_id1);
     }
     // 新建弹框 时间选择
     timeChange=(i,time)=>{
@@ -198,22 +166,34 @@ class UserBtn extends React.Component{
     // 新建弹框 年龄
     ageChange=(age)=>{
         console.log(age);
+        var $=this.state;
+        var age1=age?'&age='+age:'';
         this.setState({age})
+        age1+=$.region1+$.sex1+$.type_name1+$.source_name1+$.admin_id1;
+        this.axiosops(age1);
     }
     //新建弹框 性别
     sexChange=(sex)=>{
+        var $=this.state;
+        var sex1=sex?'&sex='+sex:'';
+        this.setState({sex,sex1})
+        sex1+=$.region1+$.age1+$.type_name1+$.source_name1+$.admin_id1;
         console.log(sex);
-        this.setState({sex})
+        this.axiosops(sex1);
     }
     // 新建弹框 地域
     regionChange=(region)=>{
         console.log(region);
-        this.setState(region);
+        var $=this.state;
+        var region1=region?'&region='+region:'';
+        this.setState({region,region1});
+        region1+=$.sex1+$.age1+$.type_name1+$.source_name1+$.admin_id1;
+        this.axiosops(region1);
     }
     // 新建弹框 组名称co
-    groupChange=(name)=>{
-        console.log(name);
-        this.setState({name})
+    groupChange=(e)=>{
+        console.log(e.target.value);
+        this.setState({name:e.target.value})
     }
     showtip=(info)=>{
         if (info.file.status === 'done'){
@@ -239,19 +219,25 @@ class UserBtn extends React.Component{
         this.props.getcrow1(gl)
     }
     render(){
-        var sourceList=this.props.p1.sourceList;
-        var adminList=this.props.p1.adminList;
-        console.log(this.props.p1)
+        var sourceList=this.state.list.sourceList;
+        var adminList=this.state.list.adminList;
+        var ageList=this.state.list.ageList;
+        var regionList=this.state.list.regionList;
+        var sexList=this.state.list.sexList;
+        var typeList=this.state.list.typeList;
+        // var $=this.state.list;
+        // console.log(this.props.p1.isRoot)
         return(
             //用户管理顶部按钮
             <div className='topDiv'>
-                <Button type="primary" className="btnBtn" onClick={() => this.setModal1Visible(true)}>上传用户</Button>
+                <Button type="primary" className="btnBtn" onClick={(e) => this.setModal1Visible(e,true)}>上传用户</Button>
                 <Modal
                     title="上传用户"
                     centered
+                    destroyOnClose
                     visible={this.state.modal1Visible}
                     onOk={() => this.uploaddone(false)}
-                    onCancel={() => this.setModal1Visible(false)}
+                    onCancel={(e) => this.setModal1Visible(e,false)}
                     className={['modals','btn140']}
                     okText="上传"
                     cancelText="取消"
@@ -269,14 +255,16 @@ class UserBtn extends React.Component{
                         </div>
                     </div>    
                 </Modal>
-                <Button type="primary" className="btnBtn" onClick={()=>this.newusergroup(true)}>新建用户组</Button>  
+                <Button type="primary" className="btnBtn" onClick={()=>this.newusergroupshow(true)}>新建用户组</Button>  
                 {/* 弹框 */}
                 <Modal
                     title="新建用户组"
+                    maskClosable="false"
                     centered
                     visible={this.state.modal3Visible}
                     onOk={() => this.newusergroup(false)}
-                    onCancel={() => this.newusergroup(false)}
+                    onCancel={(e) => this.newusergroupshow1(e,false)}
+                    destroyOnClose
                     className='modals'
                     style={{width:408}}
                     footer={<Button type="primary" onClick={()=>this.newusergroup(false)}>新建</Button>}
@@ -284,15 +272,18 @@ class UserBtn extends React.Component{
                     >
                     <div>
                         <span>类型</span>
-                        <Select defaultValue="全部" style={{ width: 240,marginLeft:'20px' }} onChange={this.typeChange}>
-                            <Option value="自有">自有</Option>
-                            <Option value="媒体">媒体</Option>
-                        
+                        <Select defaultValue="" allowClear={true} style={{ width: 240,marginLeft:'20px' }} onChange={this.typeChange}>
+                            {
+                                this.state.list.typeList&&this.state.list.typeList.map(item=>{
+                                    // console.log(item)
+                                    return(<Option key={item}>{item}</Option>)
+                                })
+                            }        
                         </Select>
                     </div>
                     <div>
                         <span>来源</span>
-                        <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.sourceChange}>
+                        <Select  mode="multiple" allowClear={true}  showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.sourceChange}>
                             {
                                 sourceList&&sourceList.map(item=>{
                                     return(
@@ -304,13 +295,13 @@ class UserBtn extends React.Component{
                             
                         </Select>
                     </div>
-                    <div>
+                    <div style={{display:this.props.p1.isRoot?'block':'none'}}>
                         <span>广告主</span>
-                        <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.adminChange}>
+                        <Select mode="multiple" allowClear={true} showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.adminChange}>
                             {
                                 adminList&&adminList.map(item=>{
                                     return( 
-                                        <Option key={item.name}>{item.name}</Option>
+                                        <Option key={item}>{item}</Option>
                                     )
                                 })
                             }
@@ -320,71 +311,94 @@ class UserBtn extends React.Component{
                     <div>
                         <span>时间</span>
                         
-                        <RangePicker suffixIcon={<Icon type="down" />}  placeholder="" separator="" style={{width:240,marginLeft:'20px' }} onChange={this.timeChange} />
+                        <RangePicker allowClear={true} className="date_sty" suffixIcon={<Icon type="down" />}  placeholder="" separator="" style={{width:240,marginLeft:'20px',textAlign:"left" }} onChange={this.timeChange} />
                     </div>
                     <div>
                         <span>地域</span>
-                        <Select showArrow  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onChange={this.regionChange}>
-                            <Option value="001">全部</Option>
+                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.regionChange}>
+                            {
+                                regionList&&regionList.map(item=>{
+                                    return(
+                                        <Option key={item}>{item}</Option>
+                                    )
+                                })
+                            }
+                            
                     
                         </Select>
                     </div>
                     <div>
                         <span>年龄</span>
-                        <Select showArrow  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onChange={this.ageChange}>
-                            <Option value="001">18-23</Option>
-                            <Option value="002">24-30</Option>
-                            <Option value="003">31-40</Option>
-                            <Option value="004">41-49</Option>
-                            <Option value="005">50+</Option>
+                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.ageChange}>
+                                {
+                                ageList&&ageList.map(
+                                    item=>{
+                                        return(
+                                            <Option key={item}>{item}</Option>
+                                        )
+                                    }
+                                )
+                                }
+                            {/* <Option value="[18,23]">18-23</Option>
+                            <Option value="[24,30]">24-30</Option>
+                            <Option value="[31,40]">31-40</Option>
+                            <Option value="[41,49]">41-49</Option>
+                            <Option value="[50]">50+</Option> */}
                         </Select>
                     </div>
                     <div>
                         <span>性别</span>
-                        <Select defaultValue="全部"  style={{ width: 240,marginLeft:'20px' }} onChange={this.sexChange}>
-                            <Option value="001">男</Option>
-                            <Option value="002">女</Option>
-                            {/* <Option value="003">未知</Option> */}
+                        <Select  allowClear={true}   style={{ width: 240,marginLeft:'20px' }} onChange={this.sexChange}>
+                            {
+                                sexList&&sexList.map(item=>{
+                                    return(
+                                        <Option key={item}>{item===1?"男":"女"}</Option>
+                                    )
+                                })
+                            }
+                            {/* <Option value="2">女</Option>
+                            <Option value="">未知</Option> */}
                             
                         </Select>
                     </div>
                     <div>
                         <span>组名称</span>
-                        <Select  showArrow  style={{ width: 240,marginLeft:'20px' }} onChange={this.groupChange}>
+                        <Input style={{ width: 240,marginLeft:'20px' }} onBlur={this.groupChange} />
+                        {/* <Select  showArrow  style={{ width: 240,marginLeft:'20px' }} onChange={this.groupChange}>
                             <Option value="腾讯">腾讯</Option>
                             <Option value="报读">报读</Option>
                             <Option value="头条">头条</Option>
                             <Option value="朋友圈">朋友圈</Option>
-                        </Select>
+                        </Select> */}
                     </div>
                 </Modal>
-                <Button type="primary" style={{marginRight:'20px',float:'right'}} onClick={() => this.setModal2Visible(true)}>生成人群包</Button> 
+                <Button type="primary" style={{marginRight:'20px',float:'right'}} onClick={(e) => this.setModal2Visible(e,true)}>生成人群包</Button> 
                 <Modal
                     title="生成人群包"
                     centered
                     visible={this.state.modal2Visible}
-                    onOk={() => this.setModal2Visible(false)}
-                    onCancel={() => this.setModal2Visible(false)}
+                    onOk={() => this.getcrow(false)}
+                    onCancel={(e) => this.setModal2Visible(e,false)}
                     className='modals'
                     okText="生成"
                     cancelText="取消"
                     >
                     <div>
                         <span>媒体选择</span>
-                        <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.handleChange}>
-                            <Option value="001">腾讯</Option>
-                            <Option value="002">报读</Option>
-                            <Option value="003">头条</Option>
-                            <Option value="004">朋友圈</Option>
+                        <Select defaultValue="请选择媒体" style={{ width: 240,marginLeft:'20px' }} onChange={this.getmedia}>
+                            <Option value="1">头条</Option>
+                            <Option value="2">腾讯</Option>
+                            <Option value="3">百度</Option>
+                            <Option value="4">朋友圈</Option>
                         </Select>
                     </div>
                     <div>
                         <span>匹配类型</span>
-                        <Input disabled  style={{ width: 240,marginLeft:'20px' }} value="SHA=256"  />
+                        <Input disabled  style={{ width: 240,marginLeft:'20px' }} value={this.state.matetype}  />
                     </div>
                     <div>
                         <span>人群包名称</span>
-                        <Input  style={{ width: 240,marginLeft:'20px' }} />
+                        <Input  style={{ width: 240,marginLeft:'20px' }} onBlur={this.getc_name}/>
                     </div>
                 </Modal>
             </div>

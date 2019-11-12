@@ -5,10 +5,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+    
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
     
+}
+input::-webkit-input-placeholder{
+  font-family: PingFangSC-Regular !important;
+font-size: 12px !important;
+color: #575757 !important;
 }

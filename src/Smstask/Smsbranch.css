@@ -9,13 +9,17 @@
     border:1px solid #CFCFCF;
     border-radius :5px;
     margin-top:29px;
-    margin-left:104px;
+    margin-left:30px;
     text-align: center;
     vertical-align: center;
 
 }
-.div1>span{
+.div1>p{
     /* width:360px !important;
     height: 200px; */
-    padding-left: 6px;
+    /* padding-left: 6px; */
+    margin-top: 10px;
+    font-family: PingFangSC-Regular;
+    font-size: 18px;
+    color: #4A90E2;
 }

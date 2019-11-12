@@ -6,8 +6,8 @@ class Smsbranch extends React.Component{
         return(
             <div style={{width:1920,height:1020,backgroundColor:'rgba(255,255,255,0.78)'}}>
 
-                <Link to="/web/Smstask">
-                <div className="div1" >
+                <Link to="/Smstask">
+                <div className="div1" style={{marginLeft:195}} >
                     <img src={require('../images/icon-dx.png')} alt=""/>
                     <p>短信营销</p>
                 </div>

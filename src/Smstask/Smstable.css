@@ -3,7 +3,7 @@
     box-shadow: 0 5px 25px 0 rgba(234,234,234,0.50);
     border-radius: 5px;
     border-radius: 5px;
-    width:1596px;
+    width:95%;
     height: 815px;
     margin-left:29px;
     padding-top: 20px;
@@ -43,4 +43,11 @@ p{
 }
 .widthchange .ant-modal-content{
     width: 569px !important;
+}
+.downcss{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #1790FF;
+    letter-spacing: 0;
+    cursor: pointer;
 }

@@ -17,6 +17,7 @@ class Oclick extends React.Component{
             <div style={{display:"inline-block",marginLeft:20}}>
                 
                 <RangePicker
+                style={{width:220}}
                 placeholder={['开始时间','结束时间']}
                 ranges={{
                     Today: [moment(), moment()],

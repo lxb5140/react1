@@ -1,5 +1,6 @@
 .topTable{
-    width:1596px;height:843px;background-color:#fff;margin:20px 29px;box-sizing:border-box;padding-top:15px;border-radius: 5px;
+    width:95%;height:780px;background-color:#fff;margin:20px 2.16%;box-sizing:border-box;padding-top:15px;border-radius: 5px;background: #FFFFFF;
+    /* box-shadow: 0 5px 25px 0 rgba(234,234,234,0.50); */
 }
 .selectS{
     width: 120px;

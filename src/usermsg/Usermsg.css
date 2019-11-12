@@ -37,3 +37,22 @@
 .treeshow{
     position: relative;
 }
+.menu_sty p{
+    text-align: left;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    /* color: #1A2327; */
+    /* letter-spacing: 0; */
+}
+
+.ant-menu-item-selected{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #1790FF !important;
+    letter-spacing: 0;
+
+}
+.date_sty.ant-calendar-picker-input{
+    padding-right: 40px !important;
+    text-align: left !important;
+}

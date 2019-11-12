@@ -4,4 +4,11 @@
 }
 .ant-table-thead>tr>th:first-child{
     border-left:1px solid #CFCFCF; 
+    
+}
+.point{
+    cursor: pointer;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #007AFF;
 }
