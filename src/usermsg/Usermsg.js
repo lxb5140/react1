@@ -125,7 +125,6 @@ class Usermsg extends React.Component {
             adminList1:'',
             time_section1:'',
         })
-        // var url='/getUserList?token=-uAgyQH6nXDdP2HzE1yyir1Beg'+users;
         this.getii(users);
 
     }
@@ -229,37 +228,6 @@ class Usermsg extends React.Component {
                                         }
                                             
                                         </SubMenu>
-                                            // <TreeNode   title={item.name}
-                                            //             key={item.id} 
-                                            //             onClick={this.userItem1}
-                                            //             icon={<Icon type="minus-circle"
-                                            //                     className='iconshow1'  
-                                            //                     style={{display:this.state.bc?"none":"inline"}} 
-                                            //                     onClick={()=>this.btndel(item.id)}
-                                            //         />}  
-                                            // >
-                                            //     {
-                                            //         item.group.map(child=>{
-                                            //             return(
-                                                            
-                                            //                 <TreeNode 
-                                            //                 title={child.name} 
-                                            //                 key={child.id} 
-                                            //                 onClick={this.userItem1}
-                                            //                 className="treeshow"
-                                            //                 icon={<Icon type="minus-circle"
-                                            //                             className='iconshow2'  
-                                            //                             style={{display:this.state.bc?"none":"inline"}} 
-                                            //                             onClick={()=>this.btndel(child.id)} />} 
-                                            //                 isLeaf /> 
-                                            //             )
-                                            //         })
-                                            //     }
-                                            
-                                            // {/* <Icon type="minus-circle" className='iconshow'  style={{display:this.state.bc?"none":"inline"}} onClick={()=>this.btndel(item.id)} /> */}
-                                            // </TreeNode>
-                                    
-                                        
                                     )
                                 }
                                 

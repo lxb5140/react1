@@ -51,7 +51,6 @@ class App extends React.Component{
           <Route exact path="/web/Smsbranch" component={Smsbranch}></Route>
         {/* <Routers/> */}
       </Content>
-      {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
     </Layout>
     </Router>
   )

@@ -223,7 +223,21 @@ class UserBtn extends React.Component{
             this.setState({link})
         }
     }
-    
+    // 生成人群包
+    getmedia=(media)=>{
+        var matetype=media==="2"?"手机号-MD5":"手机号-SHA256";
+        this.setState({media,matetype})
+    }
+    // 生成人群包 组名称
+    getc_name=(e)=>{
+        this.setState({c_name:e.target.value})
+    }
+    // 生成弹框 生成
+    getcrow(modal2Visible){
+        this.setState({modal2Visible})
+        var gl={media:this.state.media,c_name:this.state.c_name}
+        this.props.getcrow1(gl)
+    }
     render(){
         var sourceList=this.props.p1.sourceList;
         var adminList=this.props.p1.adminList;
