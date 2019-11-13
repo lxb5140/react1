@@ -79,7 +79,7 @@ class Smstask extends React.Component{
         window.location.href=a;
     }
     render(){
-        var leftList=this.state.res1.leftList;
+        // var leftList=this.state.res1.leftList;
         // console.log(leftList)
         return(
             <div>

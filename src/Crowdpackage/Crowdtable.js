@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Table, Divider,Modal,Select,message } from 'antd';
+import { Table, Divider,Modal,Select } from 'antd';
 import Crowdbtn from './Crowdbtn';
 import "./Crowdtable.css"
 import { token1 } from '../jaxios';
@@ -22,10 +22,9 @@ class Crowdtable extends React.Component{
     // 状态按钮控制
 
     // 控制弹框显示
-    showModaldel(e,showModal1,id){
-        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+    showModaldel(showModal1,id){
         this.setState({showModal1,id})
-        }
+
     }
     // 删除行
     rowDelete(showModal1){
@@ -34,8 +33,8 @@ class Crowdtable extends React.Component{
         this.props.rowdel(this.state.id);
     }
     // 弹框显示
-    appint(e,showModal2,id){
-        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+    appint(showModal2,id){
+        console.log(showModal2)
         var url="/getAdminGList"+token1;
         axios.get(url).then(res=>{
             console.log(res.data.data)
@@ -43,7 +42,7 @@ class Crowdtable extends React.Component{
         })
         // console.log(id)
         this.setState({showModal2,id})
-    }
+    
     }
     // 指派人群包
     appint1(showModal2){
@@ -52,7 +51,11 @@ class Crowdtable extends React.Component{
             var admin_id="&admin_id="+this.state.type;
             var url="/designateUserPackage"+token1+id1+admin_id;
             // console.log(url);
-            axios.get(url).then(res=>window.location.reload());
+            axios.get(url).then(res=>{
+                window.location.reload()
+                alert(res.data.message)
+            }
+                ).catch(err=>alert(err.data.data.message));
             this.setState({showModal2,admin_id:'',id:''});
         }else{
             alert('请选择广告主')
@@ -106,9 +109,9 @@ class Crowdtable extends React.Component{
                     align="center"
                     render={(text, record) => (
                         <span>
-                            <span className="point" style={{display:this.props.data.isRoot?'inline':'none'}}  onClick={(e)=>this.appint(e,true,record.id)}>指派</span>
+                            <span className="point" style={{display:this.props.data.isRoot?'inline':'none'}}  onClick={()=>this.appint(true,record.id)}>指派</span>
                             <Divider type="vertical"  style={{display:this.props.data.isRoot?'inline-block':'none'}}/>
-                            <span className="point"  onClick={(e)=>this.showModaldel(e,true,record.id)}>删除</span>
+                            <span className="point"  onClick={()=>this.showModaldel(true,record.id)}>删除</span>
                         
                         </span>
                     )}
@@ -118,9 +121,10 @@ class Crowdtable extends React.Component{
                 <Modal
                     title="确定要删除此人群包吗"
                     centered
+                    maskClosable={false}
                     visible={this.state.showModal1}
                     onOk={() => this.rowDelete(false)}
-                    onCancel={(e) => this.showModaldel(e,false)}
+                    onCancel={() => this.showModaldel(false)}
                     okText="删除"
                     cancelText="取消"
                     >
@@ -130,9 +134,10 @@ class Crowdtable extends React.Component{
                 <Modal
                     title="指派人群包"
                     centered
+                    maskClosable={false}
                     visible={this.state.showModal2}
                     onOk={() => this.appint1(false)}
-                    onCancel={(e) => this.appint(e,false)}
+                    onCancel={() => this.appint(false)}
                     
                     okText="上传"
                     cancelText="取消"

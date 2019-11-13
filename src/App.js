@@ -3,20 +3,35 @@ import {Link} from 'react-router-dom';
 import {HashRouter,Route} from 'react-router-dom';
 import './App.css';
 import { Layout, Menu} from 'antd';
-// import Routers from './router'
-// import Home from './Home';
 import Page1 from './Page1';
 import Usermsg from './usermsg/Usermsg';
 import Crowdpackage from './Crowdpackage/Crowdpackage';
 import Smstask from './Smstask/Smstask';
 import Smsbranch from './Smstask/Smsbranch'
 import { relative } from 'path';
+import axios from 'axios';
+import { token1 } from './jaxios';
 // import { createHashHistory,createBrowserHistory } from 'history';
 // const customHistory = createHashHistory();
 const { Header, Content } = Layout;
 class App extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      name:''
+    }
+  }
+  componentDidMount(){
+    var url="/getAdminRow"+token1;
 
-  
+    axios.get(url).then(res=>{
+      console.log(res)
+      var {name,id}=res.data.data;
+      this.setState({
+        name,id
+      })
+    })
+  }
   render(){
     return(
       <HashRouter >
@@ -38,15 +53,15 @@ class App extends React.Component{
             {/* <div>运营人员-Operator01</div>
           </Menu.Item> */} 
           <div style={{float:"right",height:60,position:relative,top:10}}>
-            <div style={{height:'20px'}}>运营人员-Operator01</div>
-            <div style={{height:'20px'}}>ID:283928</div>
+        <div style={{height:'20px'}}>{this.state.name}</div>
+        <div style={{height:'20px'}}>ID:{this.state.id}</div>
           </div>
           
         </Menu>
       </Header>
       <Content style={{ padding: '0',maxHeight:1080,minHeight:768,height:'100%',backgroundColorbackground:' rgba(255,255,255,0.78)' }}>
           <Route  path="/" component={Page1} >
-            <Route exact path="/Page1" component={Page1}/>
+            <Route  path="/Page1" component={Page1}/>
             <Route exact path="/Usermsg" component={Usermsg}/>
             <Route exact path="/Crowdpackage" component={Crowdpackage}/>
             <Route exact path="/Smstask" component={Smstask}/>

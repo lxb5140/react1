@@ -72,20 +72,21 @@ class Crowdpackage extends React.Component{
             name:'',
             text_link:'',
             typevalue:'类型选择',
+            upload_num:'',
+            pck2:''
             // statustype:'类型选择'
         };
     }
     
     
-    UNSAFE_componentWillMount(){
-        var a='&pck='+this.state.pck;
+    componentDidMount(){
+        var a=this.state.pck;
         this.axioscrowd(a)
     }
     // 二级导航
     handleClick = e => {
         console.log('click ', e.key);
         var pck='&pck='+e.key;
-       
         this.setState({
             pck,
             status:'',
@@ -103,15 +104,13 @@ class Crowdpackage extends React.Component{
         // });
     };
     // 弹框上传
-    crowdchange(e,newcrow){
-        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
-        this.setState({newcrow})
-        }
+    crowdchange(newcrow){
+        this.setState({newcrow,pck2:''})
     }
     // 请求函数
     axioscrowd(i){
         var i1=i?i:'';
-        console.log(i1)
+        // console.log(i)
         var url='/getUserPackage'+token1+i1;
         axios.get(url).then(res=>{
             var data=res.data.data;
@@ -186,7 +185,8 @@ class Crowdpackage extends React.Component{
     mediachange=(pck1)=>{
         console.log(pck1)
         var matetype=pck1==="2"?"手机号-MD5":"手机号-SHA256";
-        this.setState({pck1,matetype})
+        var pck2="&pck="+pck1;
+        this.setState({pck1,matetype,pck2})
     }
     // 输入名称
     getname=(e)=>{
@@ -196,13 +196,14 @@ class Crowdpackage extends React.Component{
     }
     // zip上传
     zipchange=(info)=>{
-        console.log(info)
+        console.log(this.state.pck2)
         if (info.file.status === 'done'){
             var data=info.file.response.data;
             var text_link=data.text_link;
+            var upload_num=data.upload_num;
             // var textContent=data.textContent;
             console.log("11"+text_link) 
-            this.setState({text_link})
+            this.setState({text_link,upload_num})
     }
 }
     //生成人群包上传
@@ -210,8 +211,10 @@ upchange=(newcrow)=>{
     var gl={
         pck:this.state.pck1 ,   
         name:this.state.name,
-        link_txt:this.state.text_link
+        link_txt:this.state.text_link,
+        upload_num:this.state.upload_num
     }
+    // console.log(gl)
     var url="/insUserPackage"+token1;
     axios.post(url,{params:gl}).then(res=>{alert(res.data.message);window.location.reload()})
     this.setState({
@@ -219,7 +222,8 @@ upchange=(newcrow)=>{
             matetype:'',//弹框数据类型   
             name:'',
             text_link:'',
-            newcrow
+            newcrow,
+            pck2:''
     })
     
 }
@@ -263,13 +267,15 @@ upchange=(newcrow)=>{
                     </Menu>
                 </div>
                 <div style={{margin:'15px auto',width:"93.8%",fontSize:'1rem'}}>
-                    <Button type="primary" onClick={(e)=>this.crowdchange(e,true)} className="btncss">新建人群包</Button>
+                    <Button type="primary" onClick={(e)=>this.crowdchange(true)} className="btncss">新建人群包</Button>
                     <Modal
                         title="生上传人群包"
                         centered
+                        destroyOnClose
+                        maskClosable={false}
                         visible={this.state.newcrow}
                         onOk={() => this.upchange(false)}
-                        onCancel={(e) => this.crowdchange(e,false)}
+                        onCancel={(e) => this.crowdchange(false)}
                         className='modals'
                         okText="上传"
                         cancelText="取消"
@@ -295,7 +301,7 @@ upchange=(newcrow)=>{
                         </div>
                         <div>
                             <span style={{position:'relative',left:'-95px'}}>上传文件</span>
-                            <Upload action="/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg" accept=".zip" name="textFile" onChange={this.zipchange}     >
+                            <Upload action={"/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg"+this.state.pck2} accept=".zip" name="textFile" onChange={this.zipchange}     >
                                 <Button type="primary" style={{position:'relative',width:140,left:'-40px'}} >点击上传ZIP包</Button>
                             </Upload>
                         </div>

@@ -46,10 +46,10 @@ class UserBtn extends React.Component{
     // console.log(date, dateString)
     }
     // 控制弹框显示
-    setModal1Visible(e,modal1Visible){
-        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+    setModal1Visible(modal1Visible){
+        
         this.setState({ modal1Visible });
-        }
+        
     }
     
     // 用户上传
@@ -71,10 +71,10 @@ class UserBtn extends React.Component{
         
     }
     // 生成人群包
-    setModal2Visible(e,modal2Visible) {
-        if(e.target.nodeName==='svg'||e.target.nodeName==='SPAN'||e.target.nodeName==='BUTTON'){
+    setModal2Visible(modal2Visible) {
+        
         this.setState({ modal2Visible });
-        }
+        
     }
     // 新建用户
     newusergroup=(modal3Visible)=>{
@@ -104,7 +104,13 @@ class UserBtn extends React.Component{
             region:'',
             name:'',
             link:'',
-            type_name:''
+            type_name:'',
+            age1:'',
+            admin_id1:'',
+            region1:'',
+            sex1:'',
+            type_name1:'',
+            source_name1:''
         });
     }
     
@@ -114,13 +120,13 @@ class UserBtn extends React.Component{
         console.log(this.state.list)
         this.setState({modal3Visible})
     }
-    newusergroupshow1=(e,modal3Visible)=>{
+    newusergroupshow1=(modal3Visible)=>{
         // window.location.reload()
         // console.log(e.target.nodeName)
-        if(e.target.nodeName=='svg'||e.target.nodeName=='SPAN'){
 
-            this.setState({modal3Visible})
-        }
+            this.setState({modal3Visible,age1:'',admin_id1:'', region1:'',sex1:'', type_name1:'',source_name1:''})
+
+
     }
     // 新建弹框
     axiosops=(val)=>{
@@ -135,9 +141,9 @@ class UserBtn extends React.Component{
     typeChange=(type_name)=>{
         var $=this.state;
         var type_name1=type_name?'&type_name='+type_name:'';
-        console.log(type_name1);
         this.setState({type_name,type_name1})
         type_name1+=$.region1+$.sex1+$.source_name1+$.age1+$.admin_id1;
+        console.log(type_name1);
         this.axiosops(type_name1);
     }
     // 新建弹框sourceChange
@@ -149,6 +155,11 @@ class UserBtn extends React.Component{
         this.setState({source,source_name1})
         this.axiosops(source_name1);
     }
+    sourceChange=(source)=>{
+        var source_name1=source?'&source_name='+source:'';
+        this.setState({source,source_name1})
+
+    }
     // 新建弹框adminChange
     adminChange=(admin)=>{
         console.log(admin);
@@ -157,6 +168,10 @@ class UserBtn extends React.Component{
         admin_id1+=$.region1+$.sex1+$.type_name1+$.source_name1+$.age1;
         this.setState({admin,admin_id1})
         this.axiosops(admin_id1);
+    }
+    adminChange1=(admin)=>{
+        var admin_id1=admin?'&admin_name='+admin:'';
+        this.setState({admin,admin_id1})
     }
     // 新建弹框 时间选择
     timeChange=(i,time)=>{
@@ -168,9 +183,14 @@ class UserBtn extends React.Component{
         console.log(age);
         var $=this.state;
         var age1=age?'&age='+age:'';
-        this.setState({age})
+        this.setState({age,age1})
         age1+=$.region1+$.sex1+$.type_name1+$.source_name1+$.admin_id1;
         this.axiosops(age1);
+    }
+    ageChange1=(age)=>{
+        console.log(age);
+        var age1=age?'&age='+age:'';
+        this.setState({age,age1})
     }
     //新建弹框 性别
     sexChange=(sex)=>{
@@ -189,6 +209,10 @@ class UserBtn extends React.Component{
         this.setState({region,region1});
         region1+=$.sex1+$.age1+$.type_name1+$.source_name1+$.admin_id1;
         this.axiosops(region1);
+    }
+    regionChange=(region)=>{
+        var region1=region?'&region='+region:'';
+        this.setState({region,region1});
     }
     // 新建弹框 组名称co
     groupChange=(e)=>{
@@ -230,14 +254,15 @@ class UserBtn extends React.Component{
         return(
             //用户管理顶部按钮
             <div className='topDiv'>
-                <Button type="primary" className="btnBtn" onClick={(e) => this.setModal1Visible(e,true)}>上传用户</Button>
+                <Button type="primary" className="btnBtn" onClick={() => this.setModal1Visible(true)}>上传用户</Button>
                 <Modal
                     title="上传用户"
                     centered
                     destroyOnClose
+                    maskClosable={false}
                     visible={this.state.modal1Visible}
                     onOk={() => this.uploaddone(false)}
-                    onCancel={(e) => this.setModal1Visible(e,false)}
+                    onCancel={() => this.setModal1Visible(false)}
                     className={['modals','btn140']}
                     okText="上传"
                     cancelText="取消"
@@ -261,9 +286,11 @@ class UserBtn extends React.Component{
                     title="新建用户组"
                     maskClosable="false"
                     centered
+                    destroyOnClose
+                    maskClosable={false}
                     visible={this.state.modal3Visible}
                     onOk={() => this.newusergroup(false)}
-                    onCancel={(e) => this.newusergroupshow1(e,false)}
+                    onCancel={() => this.newusergroupshow1(false)}
                     destroyOnClose
                     className='modals'
                     style={{width:408}}
@@ -274,7 +301,7 @@ class UserBtn extends React.Component{
                         <span>类型</span>
                         <Select defaultValue="" allowClear={true} style={{ width: 240,marginLeft:'20px' }} onChange={this.typeChange}>
                             {
-                                this.state.list.typeList&&this.state.list.typeList.map(item=>{
+                                typeList&&typeList.map(item=>{
                                     // console.log(item)
                                     return(<Option key={item}>{item}</Option>)
                                 })
@@ -283,7 +310,7 @@ class UserBtn extends React.Component{
                     </div>
                     <div>
                         <span>来源</span>
-                        <Select  mode="multiple" allowClear={true}  showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.sourceChange}>
+                        <Select  mode="multiple" allowClear={true}  showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.sourceChange} onChange={this.sourceChange}>
                             {
                                 sourceList&&sourceList.map(item=>{
                                     return(
@@ -297,7 +324,7 @@ class UserBtn extends React.Component{
                     </div>
                     <div style={{display:this.props.p1.isRoot?'block':'none'}}>
                         <span>广告主</span>
-                        <Select mode="multiple" allowClear={true} showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.adminChange}>
+                        <Select mode="multiple" allowClear={true} showArrow style={{ width: 240,marginLeft:'20px' }} onBlur={this.adminChange} onChange={this.adminChange1}>
                             {
                                 adminList&&adminList.map(item=>{
                                     return( 
@@ -315,7 +342,7 @@ class UserBtn extends React.Component{
                     </div>
                     <div>
                         <span>地域</span>
-                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.regionChange}>
+                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.regionChange} onChange={this.regionChange1}>
                             {
                                 regionList&&regionList.map(item=>{
                                     return(
@@ -329,7 +356,7 @@ class UserBtn extends React.Component{
                     </div>
                     <div>
                         <span>年龄</span>
-                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.ageChange}>
+                        <Select showArrow allowClear={true}  mode="multiple" style={{ width: 240,marginLeft:'20px' }} onBlur={this.ageChange} onChange={this.ageChange1}>
                                 {
                                 ageList&&ageList.map(
                                     item=>{
@@ -363,7 +390,7 @@ class UserBtn extends React.Component{
                     </div>
                     <div>
                         <span>组名称</span>
-                        <Input style={{ width: 240,marginLeft:'20px' }} onBlur={this.groupChange} />
+                        <Input style={{ width: 240,marginLeft:'20px' }} onChange={this.groupChange} />
                         {/* <Select  showArrow  style={{ width: 240,marginLeft:'20px' }} onChange={this.groupChange}>
                             <Option value="腾讯">腾讯</Option>
                             <Option value="报读">报读</Option>
@@ -372,13 +399,15 @@ class UserBtn extends React.Component{
                         </Select> */}
                     </div>
                 </Modal>
-                <Button type="primary" style={{marginRight:'20px',float:'right'}} onClick={(e) => this.setModal2Visible(e,true)}>生成人群包</Button> 
+                <Button type="primary" style={{marginRight:'20px',float:'right'}} onClick={() => this.setModal2Visible(true)}>生成人群包</Button> 
                 <Modal
                     title="生成人群包"
                     centered
+                    destroyOnClose
+                    maskClosable={false}
                     visible={this.state.modal2Visible}
                     onOk={() => this.getcrow(false)}
-                    onCancel={(e) => this.setModal2Visible(e,false)}
+                    onCancel={() => this.setModal2Visible(false)}
                     className='modals'
                     okText="生成"
                     cancelText="取消"

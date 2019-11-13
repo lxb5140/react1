@@ -1,5 +1,5 @@
-import axios from "axios";
-const token="?token=-uAgyQH6nXDdP2HzE1yyir1Beg";
+// import axios from "axios";
+// const token="?token=-uAgyQH6nXDdP2HzE1yyir1Beg";
 
 // export const getaxios= {
 //     // 用户管理数据请求
@@ -43,4 +43,4 @@ const token="?token=-uAgyQH6nXDdP2HzE1yyir1Beg";
 //             return axios.post(url,{params:obj})
 //         }
 //     }
-    export const token1="?token=_OgrzQSqzyXdP2HzE1yyir1BdQ";
+    export const token1="?token=-uAgyQH6nXDdP2HzE1yyir1Beg";

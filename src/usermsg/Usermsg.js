@@ -134,8 +134,8 @@ class Usermsg extends React.Component {
     userItem=(key)=>{
         console.log(key);
         // var key=value.key;
-        key=key==="111"?'':key;
-        var users="&users="+key;
+        var users="&users="+key
+        
         this.setState({
             currentPage1:'',
             type1:'',
@@ -151,12 +151,12 @@ class Usermsg extends React.Component {
     userItem1=(val)=>{
         var key=val.key;
         console.log(val);
-        if(key=='111'){
-            var users='';
-        }else{
-            
-        var users="&users="+key;
-        }
+        var users="&users="+'';
+        // if(key==='111'){
+        //     var users='';
+        // }else{
+        // var users="&users="+key;
+        // }
         // // var key=value.key;
         // key=key==="111"?'':key;
         // var users="&users="+key;
@@ -197,6 +197,7 @@ class Usermsg extends React.Component {
     }
     // 新建用户组
     newusergroup=(value)=>{
+        console.log(value)
         this.axiospost(value)
         // console.log(value);
     }
@@ -248,7 +249,8 @@ class Usermsg extends React.Component {
             // console.log(res)
             alert(res.data.message)
             // window.location.reload(true);
-        }).catch(err=>alert(err.data.message))
+        }).catch(err=>
+            alert(err.data.message))
     }
     render() {
         // console.log(this.state.p1.isRoot)
@@ -318,6 +320,12 @@ class Usermsg extends React.Component {
                                     return(
                                         <Menu.Item key={item.id}  onClick={()=>this.userItem2(item.users)} >
                                             <p>{item.name}</p>
+                                            <Icon type="minus-circle"
+                                                                className='iconshow1'  
+                                                                style={{display:this.state.bc?"none":"inline",textAlign:"left"}} 
+                                                                onClick={()=>this.btndel(item.id)}
+                                                                
+                                                                />
                                         </Menu.Item>
                                     )
                                 }

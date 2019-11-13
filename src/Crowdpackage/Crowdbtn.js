@@ -25,7 +25,7 @@ class Crowdbtn extends React.Component{
                     </Button>
                 </span>
             )
-        }else{
+        }else if(st===3){
             return(
                 <span>
                     <Button   style={{width:76,height:28,background: '#C3C3C3',color:"#fff"}}>
@@ -33,6 +33,14 @@ class Crowdbtn extends React.Component{
                     </Button>
                 </span>
                 )
+        }else{
+            return(
+                <span>
+                    <Button   style={{width:76,height:28,background: 'rgb(209, 198, 198)',color:"#fff"}}>
+                        可指派
+                    </Button>
+                </span>
+            )
         }
         
     }
