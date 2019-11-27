@@ -426,6 +426,10 @@ class UserBtn extends React.Component{
                         <Input disabled  style={{ width: 240,marginLeft:'20px' }} value={this.state.matetype}  />
                     </div>
                     <div>
+                        <span>用户组名称</span>
+                        <Input disabled  style={{ width: 240,marginLeft:'20px' }} value={this.props.groupname}  />
+                    </div>
+                    <div>
                         <span>人群包名称</span>
                         <Input  style={{ width: 240,marginLeft:'20px' }} onBlur={this.getc_name}/>
                     </div>

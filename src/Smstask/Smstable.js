@@ -133,8 +133,8 @@ class Smstable extends React.Component{
                     placeholder={['开始时间','结束时间']}
                     style={{marginLeft:'20px',width:345}}
                     ranges={{
-                        Today: [moment(), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        "今天": [moment(), moment()],
+                        '本月': [moment().startOf('month'), moment().endOf('month')],
                     }}
                     onChange={this.onChange}
                     

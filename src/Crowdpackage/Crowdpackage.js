@@ -63,7 +63,7 @@ class Crowdpackage extends React.Component{
             
             newcrow:false  ,
             current: '1',
-            pck:'&pck=1',//广告主
+            pck:'&pck=1',//广告主   
             status:'',//状态
             time_section:'',//时间
             type:'',//类型
@@ -73,7 +73,8 @@ class Crowdpackage extends React.Component{
             text_link:'',
             typevalue:'类型选择',
             upload_num:'',
-            pck2:''
+            pck2:'',
+            encrypte:''//加密类型
             // statustype:'类型选择'
         };
     }
@@ -105,7 +106,8 @@ class Crowdpackage extends React.Component{
     };
     // 弹框上传
     crowdchange(newcrow){
-        this.setState({newcrow,pck2:''})
+        console.log(this.state.encrypte)
+        this.setState({newcrow,pck2:'',pck1:'',encrypte:''})
     }
     // 请求函数
     axioscrowd(i){
@@ -188,6 +190,11 @@ class Crowdpackage extends React.Component{
         var pck2="&pck="+pck1;
         this.setState({pck1,matetype,pck2})
     }
+    // 是否加密
+    encrypteChange=(val)=>{
+        console.log(val)
+        this.setState({encrypte:val})
+    }
     // 输入名称
     getname=(e)=>{
         console.log(e.target.value);
@@ -212,7 +219,8 @@ upchange=(newcrow)=>{
         pck:this.state.pck1 ,   
         name:this.state.name,
         link_txt:this.state.text_link,
-        upload_num:this.state.upload_num
+        upload_num:this.state.upload_num,
+        encrypte:this.state.encrypte
     }
     // console.log(gl)
     var url="/insUserPackage"+token1;
@@ -223,7 +231,8 @@ upchange=(newcrow)=>{
             name:'',
             text_link:'',
             newcrow,
-            pck2:''
+            pck2:'',
+            encrypte:''
     })
     
 }
@@ -267,15 +276,15 @@ upchange=(newcrow)=>{
                     </Menu>
                 </div>
                 <div style={{margin:'15px auto',width:"93.8%",fontSize:'1rem'}}>
-                    <Button type="primary" onClick={(e)=>this.crowdchange(true)} className="btncss">新建人群包</Button>
+                    <Button type="primary" onClick={()=>this.crowdchange(true)} className="btncss">新建人群包</Button>
                     <Modal
-                        title="生上传人群包"
+                        title="上传人群包"
                         centered
                         destroyOnClose
                         maskClosable={false}
                         visible={this.state.newcrow}
                         onOk={() => this.upchange(false)}
-                        onCancel={(e) => this.crowdchange(false)}
+                        onCancel={() => this.crowdchange(false)}
                         className='modals'
                         okText="上传"
                         cancelText="取消"
@@ -292,8 +301,12 @@ upchange=(newcrow)=>{
                             </Select>
                         </div>
                         <div>
-                            <span>匹配类型</span>
-                            <Input disabled  value={this.state.matetype} style={{ width: 240,marginLeft:'20px' }}   />
+                            <span>是否加密</span>
+                            <Select defaultValue="请选择加密类型" style={{ width: 240,marginLeft:'20px' }} disabled={this.state.pck1?false:true} onChange={this.encrypteChange}>
+                                <Option value="1">{this.state.matetype}</Option>
+                                <Option value="2">不加密</Option>
+                            </Select>    
+                            {/* <Input disabled  value={this.state.matetype} style={{ width: 240,marginLeft:'20px' }}   /> */}
                         </div>
                         <div>
                             <span>人群包名称</span>
@@ -365,8 +378,8 @@ upchange=(newcrow)=>{
                             style={{display:"inline-block",marginLeft:20}}
                             placeholder={['开始时间','结束时间']}
                             ranges={{
-                                Today: [moment(), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                '今天': [moment(), moment()],
+                                '本月': [moment().startOf('month'), moment().endOf('month')],
                             }}
                             onChange={this.timeChange}
                             

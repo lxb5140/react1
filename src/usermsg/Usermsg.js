@@ -29,7 +29,8 @@ class Usermsg extends React.Component {
             adminList1:'',//广告主
             time_section1:'',//时间
             users:'',//用户名,
-            p2:''
+            p2:'',
+            groupname:'全部用户'//生成人群包组名
 
 
         }
@@ -131,7 +132,7 @@ class Usermsg extends React.Component {
         this.getii(tip)
     }
     // 左侧用户列
-    userItem=(key)=>{
+    userItem=(key,groupname)=>{
         console.log(key);
         // var key=value.key;
         var users="&users="+key
@@ -142,7 +143,8 @@ class Usermsg extends React.Component {
             source_name1:'',
             adminList1:'',
             time_section1:'',
-            users
+            users,
+            groupname
             
         })
         this.getii(users);
@@ -166,13 +168,14 @@ class Usermsg extends React.Component {
             source_name1:'',
             adminList1:'',
             time_section1:'',
-            users
+            users,
+            groupname:'全部用户'
             
         })
         this.getii(users);
 
     }
-    userItem2=(val)=>{
+    userItem2=(val,groupname)=>{
         var users="&users="+val;
         this.setState({
             currentPage1:'',
@@ -180,7 +183,8 @@ class Usermsg extends React.Component {
             source_name1:'',
             adminList1:'',
             time_section1:'',
-            users
+            users,
+            groupname
             
         })
         this.getii(users);
@@ -301,7 +305,7 @@ class Usermsg extends React.Component {
                                                 </div>}>
                                                 {item.group.map(child=>{
                                                         return(
-                                                            <Menu.Item key={child.id}   onClick={()=>this.userItem(child.users)}>
+                                                            <Menu.Item key={child.id}   onClick={()=>this.userItem(child.users,child.name)}>
                                                                 <p>{child.name}</p>
                                                                 <Icon type="minus-circle"
                                                                 className='iconshow1'  
@@ -318,7 +322,7 @@ class Usermsg extends React.Component {
                                     }
                                 }else{
                                     return(
-                                        <Menu.Item key={item.id}  onClick={()=>this.userItem2(item.users)} >
+                                        <Menu.Item key={item.id}  onClick={()=>this.userItem2(item.users,item.name)} >
                                             <p>{item.name}</p>
                                             <Icon type="minus-circle"
                                                                 className='iconshow1'  
@@ -339,7 +343,7 @@ class Usermsg extends React.Component {
                 
                 </Sider>
                 <Content  style={{marginLeft:'auto',background: 'rgba(255,255,255,0.78)'}}>
-                    <UserBtn p1={this.state.p1} newusergroup={this.newusergroup} getcrow1={this.getcrow}/>
+                    <UserBtn p1={this.state.p1} groupname={this.state.groupname} newusergroup={this.newusergroup} getcrow1={this.getcrow}/>
                     <UserTable  p1={this.state.p1} p2={this.state.p2}
                     getfun={{getaffiliatedTableTableList:this.getaffiliatedTableTableList
                     ,type_name:this.type_name,source_name:this.source_name,
