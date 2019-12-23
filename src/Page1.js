@@ -1,16 +1,23 @@
 import React from 'react';
-// import {Link} from 'react-router-dom';
-// import {BrowserRouter as Router ,Route} from 'react-router-dom';
-// import Usermsg from './usermsg/Usermsg';
+// import { Menu,Switch,Select,DatePicker,Modal,Pagination} from 'antd';
+import './page1.css';
+// import axios from 'axios';
+// const { Option } = Select;
+// const { RangePicker} = DatePicker;
 class Page1 extends React.Component{
+    constructor(){
+        super()
+        this.state={
+            visible:false,
+            list:''
+        }
+    }
+
     render(){
         return(
-            <div>
-                <div>this is Page1</div>
-                {/* <Link to="/web/Usermsg">用户管理</Link> */}
-                {/* <Router>
-                    <Route exact  path="/Usermsg" component={Usermsg}/>   
-                </Router> */}
+            <div >11111
+
+
             </div>   
         )
     }

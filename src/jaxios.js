@@ -43,4 +43,15 @@
 //             return axios.post(url,{params:obj})
 //         }
 //     }
-    export const token1="?token=-uAgyQH6nXDdP2HzE1yyir1Beg";
+function  gettoken(){
+  var a=localStorage.getItem("token")
+      // a=JSON.parse(a);
+      // var {api_token}=a
+  // localStorage.setItem("temp",'arr')
+  // var b=localStorage.getItem("temp")
+  // console.log("a:"+api_token);
+  return a
+
+}
+    export  const token1=gettoken()
+    

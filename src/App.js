@@ -10,7 +10,7 @@ import Smstask from './Smstask/Smstask';
 import Smsbranch from './Smstask/Smsbranch'
 import { relative } from 'path';
 import axios from 'axios';
-import { token1 } from './jaxios';
+// import { token1 } from './jaxios';
 // import { createHashHistory,createBrowserHistory } from 'history';
 // const customHistory = createHashHistory();
 const { Header, Content } = Layout;
@@ -22,15 +22,36 @@ class App extends React.Component{
     }
   }
   componentDidMount(){
-    var url="/getAdminRow"+token1;
-
+    let customers_id=window.location.search;
+    let url='/getTokenCustomers'+customers_id;
+    // localStorage.setItem("token",token1)
     axios.get(url).then(res=>{
-      console.log(res)
-      var {name,id}=res.data.data;
-      this.setState({
-        name,id
+      console.log(res.data.data.token)
+      let token1="?token="+res.data.data.token
+      localStorage.setItem("token",token1)
+      // if(!localStorage.getItem("do")){
+      //   window.location.reload()
+      //   localStorage.setItem("do",'a')
+      // }
+      // 
+      var url="/getAdminRow"+token1;
+      axios.get(url).then(res=>{
+        console.log(res)
+        var {name,id}=res.data.data;
+        this.setState({
+          name,id
+        })
       })
     })
+    // var url="/getAdminRow"+token1;
+
+    // axios.get(url).then(res=>{
+    //   console.log(res)
+    //   var {name,id}=res.data.data;
+    //   this.setState({
+    //     name,id
+    //   })
+    // })
   }
   render(){
     return(
