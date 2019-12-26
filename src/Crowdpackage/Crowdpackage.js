@@ -186,7 +186,7 @@ class Crowdpackage extends React.Component{
     //媒体选项
     mediachange=(pck1)=>{
         console.log(pck1)
-        var matetype=pck1==="2"?"手机号-MD5":"手机号-SHA256";
+        var matetype=pck1==="2"?"MD5加密":"SHA256加密";
         var pck2="&pck="+pck1;
         this.setState({pck1,matetype,pck2})
     }
@@ -303,8 +303,8 @@ upchange=(newcrow)=>{
                         <div>
                             <span>是否加密</span>
                             <Select defaultValue="请选择加密类型" style={{ width: 240,marginLeft:'20px' }} disabled={this.state.pck1?false:true} onChange={this.encrypteChange}>
-                                <Option value="1">{this.state.matetype}</Option>
-                                <Option value="2">不加密</Option>
+                                <Option value="1">文件未{this.state.matetype}</Option>
+                                <Option value="2">文件已{this.state.matetype}</Option>
                             </Select>    
                             {/* <Input disabled  value={this.state.matetype} style={{ width: 240,marginLeft:'20px' }}   /> */}
                         </div>
@@ -314,7 +314,7 @@ upchange=(newcrow)=>{
                         </div>
                         <div>
                             <span style={{position:'relative',left:'-95px'}}>上传文件</span>
-                            <Upload action={"/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg"+this.state.pck2} accept=".zip" name="textFile" onChange={this.zipchange}     >
+                            <Upload action={`/readTxtToPhone${token1}${this.state.pck2}`} accept=".zip" name="textFile" onChange={this.zipchange}     >
                                 <Button type="primary" style={{position:'relative',width:140,left:'-40px'}} >点击上传ZIP包</Button>
                             </Upload>
                         </div>

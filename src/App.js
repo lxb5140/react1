@@ -24,23 +24,36 @@ class App extends React.Component{
   componentDidMount(){
     let customers_id=window.location.search;
     let url='/getTokenCustomers'+customers_id;
-    // localStorage.setItem("token",token1)
+    // let makeReload=localStorage.getItem('makeReload')
+    // console.log(makeReload)
+    // if(!makeReload||makeReload===2){
+    //   localStorage.setItem('makeReload',1)
+    //   // alert(localStorage.getItem('makeReload'))
+    //   window.location.reload()
+    // }else{
+    //   localStorage.removeItem("makeReload",2)
+    // }
+    
     axios.get(url).then(res=>{
       console.log(res.data.data.token)
       let token1="?token="+res.data.data.token
-      localStorage.setItem("token",token1)
-      // if(!localStorage.getItem("do")){
-      //   window.location.reload()
-      //   localStorage.setItem("do",'a')
-      // }
-      // 
-      var url="/getAdminRow"+token1;
-      axios.get(url).then(res=>{
-        console.log(res)
-        var {name,id}=res.data.data;
-        this.setState({
-          name,id
-        })
+      sessionStorage.setItem("token",token1)
+      return token1
+      }).then(token1=>{
+        let makeReload=localStorage.getItem('makeReload')
+        console.log(makeReload)
+        if(!makeReload){
+          localStorage.setItem('makeReload',1)
+          // alert(localStorage.getItem('makeReload'))
+          window.location.reload()
+        }else{
+          localStorage.removeItem("makeReload")
+        }
+        var url="/getAdminRow"+token1;
+        axios.get(url).then(res=>{
+          console.log(res)
+          var {name,id}=res.data.data;
+          this.setState({name,id})
       })
     })
     // var url="/getAdminRow"+token1;
@@ -62,7 +75,6 @@ class App extends React.Component{
         <Menu
           theme="dark"
           mode="horizontal"
-          // defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}
         >
           <Menu.Item key="1"><Link to="/Page1"><div>数据管理</div>  </Link></Menu.Item>

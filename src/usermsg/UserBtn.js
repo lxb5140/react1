@@ -57,6 +57,7 @@ class UserBtn extends React.Component{
         
         if(this.state.link){
             var link1="&link="+this.state.link;
+            console.log(token1)
             var url="/insUser"+token1+link1;
             axios.get(url).then(res=>{alert(res.data.message);}).then(()=>{window.location.reload(1)})
             this.setState({ modal1Visible,link:'' });
@@ -269,7 +270,7 @@ class UserBtn extends React.Component{
                     >
                     <div>
                         <div>
-                            <Upload name="excelFile" accept=".xls" action="/readExcel?token=-uAgyQH6nXDdP2HzE1yyir1Beg"onChange={this.showtip}>
+                            <Upload name="excelFile" accept=".xls" action={`/readExcel${token1}`} onChange={this.showtip}>
                             <Button type="primary" style={{width:140}}>点击上传Excel</Button>
                             </Upload>
                         </div> 

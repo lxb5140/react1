@@ -199,7 +199,7 @@ class Smstable extends React.Component{
                         </div>
                         <div style={{marginLeft:-244}}>
                             <span>上传文件 </span>
-                            <Upload action="/readTxtToPhone?token=-uAgyQH6nXDdP2HzE1yyir1Beg" accept=".txt" name="textFile" onChange={this.txtchange}>
+                            <Upload action={`/readTxtToPhone${token1}`} accept=".txt" name="textFile" onChange={this.txtchange}>
 
                                 <Button type="primary" style={{marginLeft:30,width:140}} >上传TXT文件</Button>
                             </Upload>
